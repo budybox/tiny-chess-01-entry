@@ -12,18 +12,25 @@ MT={
  K:{0:[-9,-8,-7,-1,1,7,8,9],1:[-9,-8,-7,-1,1,7,8,9]}
 }
 def I(p):return 0<=p<64
-def K_saf(v,p):
+def Attacked(v,p):
  f=(v[p]>>4)&1;q=v[p]&7
- if q!=K:return True
- f2=(v[p]>>4)&1
+ if q==K:return False
  for d in MT[q][f]:
   n=p+d
   if I(n):
    c=v[n]
-   if c and ((c>>4)&1)==f2 and (c&7)!=K:
-    # Check if this piece attacks p
+   if c and ((c>>4)&1)==f and (c&7)!=K:
     for d2 in MT[(c&7)][(c>>4)&1]:
-     if p==n+d2:return False
+     if p==n+d2:return True
+ return False
+def Legal(v,p,n):
+ b=v[:];b[p]=0;b[n]=c
+ c=v[p]
+ # Check if K is attacked
+ for q2 in range(64):
+  c2=b[q2]
+  if c2 and (c2>>4)&1==(v[4]>>4)&1 and (c2&7)==K:
+   if Attacked(b,q2):return False
  return True
 def E(v):
  s=0
